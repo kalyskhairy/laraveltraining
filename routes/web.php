@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PokemonController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,5 +15,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'HomeController@index');
+Route::get('/', [HomeController::class, 'index']);
+
+Route::get('pokemon', [PokemonController::class, 'index']);
+
+Route::get('pokemon/create', [PokemonController::class, 'create']);
+Route::post('pokemon/create', [PokemonController::class, 'store']);
+
+Route::get('pokemon/{pokemon:name}', [PokemonController::class, 'show']);
+
 Route::view('/about', 'about');

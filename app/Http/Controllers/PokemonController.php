@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pokemon;
 use Illuminate\Http\Request;
 
-class HomeController extends Controller
+class PokemonController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +15,8 @@ class HomeController extends Controller
     public function index()
     {
         //
-
-        return view('home');
+        $pokemon = Pokemon::simplePaginate(10);
+        return view('Pokemon.index', compact('pokemon'));
     }
 
     /**
@@ -26,6 +27,7 @@ class HomeController extends Controller
     public function create()
     {
         //
+        return view('pokemon.create');
     }
 
     /**
@@ -37,26 +39,39 @@ class HomeController extends Controller
     public function store(Request $request)
     {
         //
+        $pokemon = new Pokemon;
+
+        $pokemon->name = $request->name;
+        $pokemon->description = $request->description;
+        $pokemon->type = $request->type;
+        $pokemon->image = $request->image;
+
+        $pokemon->save();
+
+        // return redirect()->to('pokemon');
+
+        return back();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Pokemon  $pokemon
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Pokemon $pokemon)
     {
         //
+        return view('Pokemon.pokemon', compact('pokemon'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Pokemon  $pokemon
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Pokemon $pokemon)
     {
         //
     }
@@ -65,10 +80,10 @@ class HomeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Pokemon  $pokemon
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Pokemon $pokemon)
     {
         //
     }
@@ -76,10 +91,10 @@ class HomeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Pokemon  $pokemon
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Pokemon $pokemon)
     {
         //
     }
